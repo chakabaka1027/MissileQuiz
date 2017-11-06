@@ -34,6 +34,10 @@ public class MissileManager : MonoBehaviour {
 	}
 
     public void ReturnButton(){
+        StartCoroutine("Return");
+    }
+
+    IEnumerator Return(){
         string animationName = "";
 
         if(stage == "Guts1"){
@@ -52,13 +56,15 @@ public class MissileManager : MonoBehaviour {
         GameObject.Find("Missile").GetComponent<Animator>().Play(animationName);
         stage = "Open";
 
-        closeButton.gameObject.SetActive(true);
         openButton.gameObject.SetActive(false);
+        infoPanel.SetActive(false);
+
+        yield return new WaitForSeconds(1.1f);
+        closeButton.gameObject.SetActive(true);
         guts1.gameObject.SetActive(true);
         guts2.gameObject.SetActive(true);
         guts3.gameObject.SetActive(true);
         guts4.gameObject.SetActive(true);
-        infoPanel.SetActive(false);
     }
 
     public void PlayAnimation(string animationName){
@@ -72,17 +78,18 @@ public class MissileManager : MonoBehaviour {
     IEnumerator AlterButtons() {
 		if(stage == "Close"){
             closeButton.gameObject.SetActive(false);
-            openButton.gameObject.SetActive(true);
             guts1.gameObject.SetActive(false);
             guts2.gameObject.SetActive(false);
             guts3.gameObject.SetActive(false);
             guts4.gameObject.SetActive(false);
             infoPanel.SetActive(false);
+            yield return new WaitForSeconds(1.5f);
+            openButton.gameObject.SetActive(true);
         }
 		if(stage == "Open"){
-            closeButton.gameObject.SetActive(true);
             openButton.gameObject.SetActive(false);
             yield return new WaitForSeconds(1.5f);
+            closeButton.gameObject.SetActive(true);
             guts1.gameObject.SetActive(true);
             guts2.gameObject.SetActive(true);
             guts3.gameObject.SetActive(true);
